@@ -70,14 +70,14 @@ FUNCTION ze_Cnab341( aBoletoList )
          /* 001-001 */ cTxt += "1"
          IF Empty( :cAvalCnpj )
             /* 002-003 */ cTxt += iif( IsCnpj( :cEmpCnpj ), "02", "01" )
-            /* 004-017 */ cTxt += StrZero( Val( SoNumeros( :cEmpCnpj ) ), 14 )
+            /* 004-017 */ cTxt += StrZero( Val( SoNumero( :cEmpCnpj ) ), 14 )
          ELSE
             IF IsCnpj( :cCliCnpj )
                /* 002-003 */ cTxt += "04"
             ELSE
                /* 002-003 */ cTxt += "03"
             ENDIF
-            /* 004-017 */ cTxt += Pad( SoNumeros( :cCliCnpj ), 14 )
+            /* 004-017 */ cTxt += Pad( SoNumero( :cCliCnpj ), 14 )
          ENDIF
          /* 018-021 */ cTxt += StrZero( :nAgencia, 4 )
          /* 022-023 */ cTxt += "00"
@@ -119,12 +119,12 @@ FUNCTION ze_Cnab341( aBoletoList )
          /* 193-205 */ cTxt += StrZero( 0, 13 )
          /* 206-218 */ cTxt += StrZero( 0, 13 )
          /* 219-220 */ cTxt += iif( IsCnpj( :cCliCnpj ), "02", "01" )
-         /* 221-234 */ cTxt += StrZero( Val( SoNumeros( :cCliCnpj ) ), 14 )
+         /* 221-234 */ cTxt += StrZero( Val( SoNumero( :cCliCnpj ) ), 14 )
          /* 235-264 */ cTxt += Pad( :cCliNome, 30 )
          /* 265-274 */ cTxt += Space(10) // nota 15
          /* 275-314 */ cTxt += Pad( :cCliEnd, 40 )
          /* 315-326 */ cTxt += Pad( :cCliBairro, 12 )     // bairro
-         /* 327-334 */ cTxt += Pad( SoNumeros( :cCliCep ), 8 )   // cep
+         /* 327-334 */ cTxt += Pad( SoNumero( :cCliCep ), 8 )   // cep
          /* 335-349 */ cTxt += Pad( :cCliCidade, 15 )     // cidade
          /* 350-351 */ cTxt += Pad( :cCliUF, 2 )          // uf
          /* 352-381 */ cTxt += Pad( :cAvalNome, 30 )

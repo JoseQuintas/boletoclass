@@ -123,11 +123,11 @@ FUNCTION ze_Cnab237( aBoletoList )
          /* 193-205 */ cTxt += StrZero( 0, 13 )                      // Valor IOF
          /* 206-218 */ cTxt += StrZero( 0, 13 )                      // Valor Abatimento
          /* 219-220 */ cTxt += iif( IsCnpj( :cCliCnpj ), "02", "01" ) // 01=CPF, 02=CNPJ, 98=Nao tem, 99=Outros
-         /* 221-234 */ cTxt += StrZero( Val( SoNumeros( :cCliCnpj ) ), 14 )  // Número do CPF ou CNPJ - olhar pag. 21
+         /* 221-234 */ cTxt += StrZero( Val( SoNumero( :cCliCnpj ) ), 14 )  // Número do CPF ou CNPJ - olhar pag. 21
          /* 235-274 */ cTxt += Pad( :cCliNome, 40 )            // Nome do pagador
          /* 275-314 */ cTxt += Pad( :cCliEnd, 40 )            // Endereco do pagador
          /* 315-326 */ cTxt += Space(12)                             // Primeira mensagem
-         /* 327-334 */ cTxt += SoNumeros( :cCliCep )          // CEP
+         /* 327-334 */ cTxt += SoNumero( :cCliCep )          // CEP
          /* 335-394 */ cTxt += Space(60)                             // Sacador/Avalista ou segunda mensagem
          /* 395-400 */ cTxt += StrZero( nSequencial++, 6 )        // Número sequencial de registro
          cTxt += hb_Eol()

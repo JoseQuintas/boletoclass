@@ -1,2 +1,2 @@
-libpaths=../lib
+libpaths=lib
 libs=boletoclass

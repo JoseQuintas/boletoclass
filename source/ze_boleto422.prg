@@ -56,7 +56,7 @@ FUNCTION ze_Cnab422( aBoletoList )
          /* Detalhe 1 */
          /* 001-001 */ cTxt += "1"
          /* 002-003 */ cTxt += iif( IsCnpj( :cEmpCnpj ), "02", "01" )
-         /* 004-017 */ cTxt += StrZero( Val( SoNumeros( :cEmpCnpj ) ), 14 )
+         /* 004-017 */ cTxt += StrZero( Val( SoNumero( :cEmpCnpj ) ), 14 )
          /* 018-031 */ cTxt += StrZero( :nAgencia, 5 ) + StrZero( :nConta, 9 )
          /* 032-037 */ cTxt += Space(6)
          /* 038-062 */ cTxt += Space(25)
@@ -90,12 +90,12 @@ FUNCTION ze_Cnab422( aBoletoList )
             /* 216-218 */ cTxt += "000"
          ENDIF
          /* 219-220 */ cTxt += iif( IsCnpj( :cCliCnpj ), "02","01" )
-         /* 221-234 */ cTxt += StrZero( Val( SoNumeros( :cCliCnpj ) ), 14 )
+         /* 221-234 */ cTxt += StrZero( Val( SoNumero( :cCliCnpj ) ), 14 )
          /* 235-274 */ cTxt += Pad( :cCliNome, 40 )
          /* 275-314 */ cTxt += Pad( :cCliEnd, 40 )
          /* 315-324 */ cTxt += Pad( :cCliBairro, 10 )
          /* 325-326 */ cTxt += Space(2)
-         /* 327-334 */ cTxt += StrZero( Val( SoNumeros( :cCliCep ) ), 8 )
+         /* 327-334 */ cTxt += StrZero( Val( SoNumero( :cCliCep ) ), 8 )
          /* 335-349 */ cTxt += Pad( :cCliCidade, 15 )
          /* 350-351 */ cTxt += Pad( :cCliUF, 2 )
          /* 352-381 */ cTxt += Pad( :cAvalNome, 30 )
