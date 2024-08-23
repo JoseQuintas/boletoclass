@@ -109,9 +109,15 @@ FUNCTION ze_Cnab033( aBoletoList )
          /* 118-118 */ cTxt += "1"
          /* 119-126 */ cTxt += hb_Dtoc( :dDatVen, "DDMMYYYY" )
          /* 127-141 */ cTxt += StrZero( :nValor * :nJuros / 30, 15 )
-         /* 142-142 */ cTxt += "0"
-         /* 143-150 */ cTxt += StrZero( 0, 8 )
-         /* 151-165 */ cTxt += StrZero( 0, 15 )
+         IF Empty( :dDatDesconto ) .OR. Empty( :nValDesconto )
+            /* 142-142 */ cTxt += "0"
+            /* 143-150 */ cTxt += StrZero( 0, 8 )
+            /* 151-165 */ cTxt += StrZero( 0, 15 )
+         ELSE
+            /* 142-142 */ cTxt += "1"  // valor fixo
+            /* 143-150 */ cTxt += hb_Dtoc( :dDatDesconto, "DDMMYYYY" )
+            /* 151-165 */ cTxt += StrZero( :nValDesconto * 100, 15 )
+         ENDIF
          /* 166-180 */ cTxt += StrZero( 0, 15 )
          /* 181-195 */ cTxt += StrZero( 0, 15 )
          /* 196-220 */ cTxt += Space(25)

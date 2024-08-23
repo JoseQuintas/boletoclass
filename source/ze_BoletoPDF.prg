@@ -58,13 +58,17 @@ METHOD DrawBoleto( oBoleto, nVia, nLine ) CLASS BoletoPDFClass
    LOCAL cRawLogotipo, aMsgTxtList := {}, cTxt
 
    cRawLogotipo := Logotipo( oBoleto:nBanco )
+   IF ! Empty( oBoleto:dDatDesconto ) .AND. ! Empty( oBoleto:nValDesconto )
+      AAdd( aMsgTxtList, "DESCONTO DE R$ " + LTrim( Transform( oBoleto:nValDesconto, "@E 999,999.99" ) ) + ;
+         " SE FOR PAGO ATÉ " + Dtoc( oBoleto:dDatDesconto ) )
+   ENDIF
    IF oBoleto:nJuros != 0
-      AAdd( aMsgTxtList, "APÓS VENCIMENTO COBRAR R$" + ;
-         Transform( oBoleto:nValor * oBoleto:nJuros / 30 / 100, "@E 999,999.99" ) + " POR DIA DE ATRASO" )
+      AAdd( aMsgTxtList, "APÓS VENCIMENTO COBRAR R$ " + ;
+         Ltrim( Transform( oBoleto:nValor * oBoleto:nJuros / 30 / 100, "@E 999,999.99" ) ) + " POR DIA DE ATRASO" )
    ENDIF
    IF oBoleto:nMulta != 0
-      AAdd( aMsgTxtList, "MULTA APÓS VENCIMENTO R$" + ;
-         Transform( oBoleto:nValor * oBoleto:nMulta / 100, "@E 999,999.99" ) )
+      AAdd( aMsgTxtList, "MULTA APÓS VENCIMENTO R$ " + ;
+         Ltrim( Transform( oBoleto:nValor * oBoleto:nMulta / 100, "@E 999,999.99" ) ) )
    ENDIF
    IF hb_AScan( oBoleto:aMsgCodList, { | e | e == "43" } ) != 0
       AAdd( aMsgTxtList, "SUJEITO A PROTESTO SE NÃO FOR PAGO NO VENCIMENTO" )

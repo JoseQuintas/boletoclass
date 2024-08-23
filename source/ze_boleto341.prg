@@ -114,8 +114,13 @@ FUNCTION ze_Cnab341( aBoletoList )
          /* 157-158 */ cTxt += StrZero( Val( :aMsgCodList[ 1 ] ), 2 ) /////// 2024.05.15 zeros
          /* 159-160 */ cTxt += StrZero( Val( :aMsgCodList[ 2 ] ), 2 )  /////// 2024.05.15 zeros
          /* 161-173 */ cTxt += StrZero( :nValor * :nJuros / 30, 13 ) // no CNAB 100 é 1.00
-         /* 174-179 */ cTxt += StrZero( 0, 6 ) /////// Space(6) //////// 2024.05.15 zeros
-         /* 180-192 */ cTxt += StrZero( 0, 13 )
+         IF Empty( :dDatDesconto ) .OR. Empty( :nValDesconto )
+            /* 174-179 */ cTxt += StrZero( 0, 6 ) // data limite desconto // 2024.05.15 zeros
+            /* 180-192 */ cTxt += StrZero( 0, 13 ) // valor do desconto
+         ELSE
+            /* 174-179 */ cTxt += hb_Dtoc( :dDatDesconto, "DDMMYY" )
+            /* 180-192 */ cTxt += StrZero( :nValDesconto * 100, 13 )
+         ENDIF
          /* 193-205 */ cTxt += StrZero( 0, 13 )
          /* 206-218 */ cTxt += StrZero( 0, 13 )
          /* 219-220 */ cTxt += iif( IsCnpj( :cCliCnpj ), "02", "01" )

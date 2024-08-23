@@ -34,6 +34,8 @@ CREATE CLASS BoletoClass
    VAR    cAvalNome    INIT ""
    VAR    cAvalCnpj    INIT ""
    VAR    nFormato     INIT 0 // Pra exceções temporárias ou não
+   VAR    dDatDesconto INIT Ctod("") // 2024.08.22 Adicionado para 341 Itaú
+   VAR    nValDesconto INIT 0        // 2024.08.22 Adicionado para 341 Itaú
    // ver manual do banco
    VAR    nMoeda       INIT 9    // No boleto é sempre real
    VAR    nEspecie     INIT 1    // Duplicata mercantil

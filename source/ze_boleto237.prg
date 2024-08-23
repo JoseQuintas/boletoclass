@@ -118,8 +118,13 @@ FUNCTION ze_Cnab237( aBoletoList )
          //   cTxt += StrZero( :nProtesto, 2 )
          //ENDIF
          /* 161-173 */ cTxt += StrZero( Round( :nJuros * :nValor / 30, 0 ), 13 )    // Multa por dia - olhar pag. 21
-         /* 174-179 */ cTxt += StrZero( 0, 6 )                       // Data limite pra desconto
-         /* 180-192 */ cTxt += StrZero( 0, 13 )                      // Valor do desconto
+         IF Empty( :dDatDesconto ) .OR. Empty( :nValDesconto )
+            /* 174-179 */ cTxt += StrZero( 0, 6 )                       // Data limite pra desconto
+            /* 180-192 */ cTxt += StrZero( 0, 13 )                      // Valor do desconto
+         ELSE
+            /* 174-179 */ cTxt += hb_Dtoc( :dDatDesconto, "DDMMYY" )    // Data limite pra desconto
+            /* 180-192 */ cTxt += StrZero( :nValDesconto * 100, 13 )    // Valor do desconto
+         ENDIF
          /* 193-205 */ cTxt += StrZero( 0, 13 )                      // Valor IOF
          /* 206-218 */ cTxt += StrZero( 0, 13 )                      // Valor Abatimento
          /* 219-220 */ cTxt += iif( IsCnpj( :cCliCnpj ), "02", "01" ) // 01=CPF, 02=CNPJ, 98=Nao tem, 99=Outros

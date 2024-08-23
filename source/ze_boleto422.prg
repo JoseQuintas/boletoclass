@@ -79,8 +79,13 @@ FUNCTION ze_Cnab422( aBoletoList )
          /* 157-158 */ cTxt += iif( :nMulta != 0, "16", "00" )
          /* 159-160 */ cTxt += iif( :nJuros != 0, "01", "00" )
          /* 161-173 */ cTxt += StrZero( :nValor * :nJuros / 30, 13 )
-         /* 174-179 */ cTxt += StrZero(0,6)
-         /* 180-192 */ cTxt += StrZero(0,13)
+         IF Empty( :dDatDesconto ) .OR. Empty( :nValDesconto )
+            /* 174-179 */ cTxt += StrZero(0,6)
+            /* 180-192 */ cTxt += StrZero(0,13)
+         ELSE
+            /* 174-179 */ cTxt += hb_Dtoc( :dDatDesconto, "DDMMYY" )
+            /* 180-192 */ cTxt += StrZero( :nValDesconto * 100, 13 )
+         ENDIF
          /* 193-205 */ cTxt += StrZero(0,13)
          IF :nMulta == 0
             /* 206-218 */ cTxt += StrZero(0,13)
