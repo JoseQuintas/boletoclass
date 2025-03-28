@@ -1,8 +1,8 @@
 #include "hbclass.ch"
 
-FUNCTION ze_BoletoToPDF( aBoletoList, cFileName )
+FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF )
 
-   LOCAL oBoleto, oPDF
+   LOCAL oBoleto
 
    IF Empty( aBoletoList )
       RETURN Nil
@@ -11,7 +11,7 @@ FUNCTION ze_BoletoToPDF( aBoletoList, cFileName )
       aBoletoList := { aBoletoList }
    ENDIF
    oPDF := BoletoPDFClass():New()
-   oPDF:Begin()
+   oPDF:Begin( oPDF, oPDF == Nil )
    FOR EACH oBoleto IN aBoletoList
       oPDF:Add( oBoleto )
    NEXT
@@ -32,13 +32,13 @@ CREATE CLASS BoletoPDFClass INHERIT PDFClass STATIC
    VAR    nDrawMode         INIT 2 // mm
    VAR    nPdfPage          INIT 2 // Portrait
 
-   METHOD INIT()
+   METHOD Init()
    METHOD Add( oBoleto )
    METHOD DrawBoleto( oBoleto, nVia, nLine )
 
    ENDCLASS
 
-METHOD INIT() CLASS BoletoPDFClass
+METHOD Init() CLASS BoletoPDFClass
 
    ::SetType( 2 )
 
