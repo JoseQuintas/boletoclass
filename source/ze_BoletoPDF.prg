@@ -2,7 +2,7 @@
 
 FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF )
 
-   LOCAL oBoleto
+   LOCAL oBoleto, oPDFBoleto
 
    IF Empty( aBoletoList )
       RETURN Nil
@@ -10,15 +10,16 @@ FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF )
    IF ValType( aBoletoList ) != "A"
       aBoletoList := { aBoletoList }
    ENDIF
-   oPDF := BoletoPDFClass():New()
-   oPDF:Begin( oPDF, oPDF == Nil )
+   oPDFBoleto := BoletoPDFClass():New()
+   oPDFBoleto:Begin( oPDF, oPDF == Nil )
    FOR EACH oBoleto IN aBoletoList
-      oPDF:Add( oBoleto )
+      oPDFBoleto:Add( oBoleto )
    NEXT
    IF ! Empty( cFileName )
-      oPDF:cFileName := cFileName
+      oPDFBoleto:cFileName := cFileName
    ENDIF
-   oPDF:End()
+   oPDFBoleto:End()
+   oPDF := oPDFBoleto:oPDF
 
    RETURN oPDF
 
@@ -31,6 +32,7 @@ CREATE CLASS BoletoPDFClass INHERIT PDFClass STATIC
    VAR    cFontName         INIT "Helvetica"
    VAR    nDrawMode         INIT 2 // mm
    VAR    nPdfPage          INIT 2 // Portrait
+   VAR    oPDF
 
    METHOD Init()
    METHOD Add( oBoleto )
