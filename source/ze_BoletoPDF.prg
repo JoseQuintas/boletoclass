@@ -1,6 +1,6 @@
 #include "hbclass.ch"
 
-FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF )
+FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF, lPreview )
 
    LOCAL oBoleto, oPDFBoleto
 
@@ -18,7 +18,7 @@ FUNCTION ze_BoletoToPDF( aBoletoList, cFileName, oPDF )
    IF ! Empty( cFileName )
       oPDFBoleto:cFileName := cFileName
    ENDIF
-   oPDFBoleto:End()
+   oPDFBoleto:End( lPreview )
    oPDF := oPDFBoleto:oPDF
 
    RETURN oPDF
