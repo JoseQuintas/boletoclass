@@ -57,35 +57,40 @@ METHOD Add( oBoleto ) CLASS BoletoPDFClass
 
 METHOD DrawBoleto( oBoleto, nVia, nLine ) CLASS BoletoPDFClass
 
-   LOCAL cRawLogotipo, aMsgTxtList := {}, cTxt
+   LOCAL cRawLogotipo, aPDFMsgList := {}, cTxt
+   LOCAL cTxtGolpe := "Confira sempre os dados no pagamento e evite golpes"
+
 
    cRawLogotipo := Logotipo( oBoleto:nBanco )
    IF ! Empty( oBoleto:dDatDesconto ) .AND. ! Empty( oBoleto:nValDesconto )
-      AAdd( aMsgTxtList, "DESCONTO DE R$ " + LTrim( Transform( oBoleto:nValDesconto, "@E 999,999.99" ) ) + ;
+      AAdd( aPDFMsgList, "DESCONTO DE R$ " + LTrim( Transform( oBoleto:nValDesconto, "@E 999,999.99" ) ) + ;
          " SE FOR PAGO ATÉ " + Dtoc( oBoleto:dDatDesconto ) )
    ENDIF
    IF oBoleto:nJuros != 0
-      AAdd( aMsgTxtList, "APÓS VENCIMENTO COBRAR R$ " + ;
+      AAdd( aPDFMsgList, "APÓS VENCIMENTO COBRAR R$ " + ;
          Ltrim( Transform( oBoleto:nValor * oBoleto:nJuros / 30 / 100, "@E 999,999.99" ) ) + " POR DIA DE ATRASO" )
    ENDIF
    IF oBoleto:nMulta != 0
-      AAdd( aMsgTxtList, "MULTA APÓS VENCIMENTO R$ " + ;
+      AAdd( aPDFMsgList, "MULTA APÓS VENCIMENTO R$ " + ;
          Ltrim( Transform( oBoleto:nValor * oBoleto:nMulta / 100, "@E 999,999.99" ) ) )
    ENDIF
    IF hb_AScan( oBoleto:aMsgCodList, { | e | e == "43" } ) != 0
-      AAdd( aMsgTxtList, "SUJEITO A PROTESTO SE NÃO FOR PAGO NO VENCIMENTO" )
+      AAdd( aPDFMsgList, "SUJEITO A PROTESTO SE NÃO FOR PAGO NO VENCIMENTO" )
    ELSE
       IF oBoleto:nProtesto != 0
-         AAdd( aMsgTxtList, "PROTESTAR EM " + Ltrim( Str( oBoleto:nProtesto, 2 ) ) + " DIAS" )
+         AAdd( aPDFMsgList, "PROTESTAR EM " + Ltrim( Str( oBoleto:nProtesto, 2 ) ) + " DIAS" )
       ENDIF
    ENDIF
    FOR EACH cTxt IN oBoleto:aMsgTxtList
-      AAdd( aMsgTxtList, cTxt )
+      AAdd( aPDFMsgList, cTxt )
    NEXT
+   AAdd( aPDFMsgList, cTxtGolpe )
+
    ::DrawLine( nLine - 7, 20, nLine - 7, 197, 1 )
    IF ! Empty( cRawLogotipo )
       ::DrawMemImageBox( nLine, 20, nLine + 7, 46, cRawLogotipo )
    ENDIF
+   ::DrawText( nLine, 75, cTxtGolpe,,::nFontSizeNormal )
    IF nVia == 1
       ::DrawText( nLine, 159, "Recibo do Pagador",, ::nFontSizeNormal )
    ENDIF
@@ -149,7 +154,7 @@ METHOD DrawBoleto( oBoleto, nVia, nLine ) CLASS BoletoPDFClass
    ::DrawText( nLine + 40, 159, "(-) Desconto/Abatimento", , ::nfontsizeSmall )
 
    ::DrawText( nLine + 42,  20, "Qualquer dúvida sobre este boleto, contate o BENEFICIÁRIO", , ::nfontsizeSmall )
-   FOR EACH cTxt IN aMsgTxtList
+   FOR EACH cTxt IN aPDFMsgList
       ::DrawText( nLine + 42 + ( cTxt:__EnumIndex * 3 ),  20, cTxt, , ::nfontsizeNormal )
    NEXT
    IF nVia == 2 .AND. ! Empty( oBoleto:cPixCode )
@@ -199,6 +204,7 @@ METHOD DrawBoleto( oBoleto, nVia, nLine ) CLASS BoletoPDFClass
       ::DrawText( nLine + 88, 145, "Autenticação Mecânica", , ::nfontsizeSmall )
       ::DrawI25BarCode( nLine + 86, 20, 10, oBoleto:cBarras )
    ENDIF
+   ::DrawText( nLine + 85, 10, cTxtGolpe, , ::nFontSizeNormal, , 90 )
 
    RETURN Nil
 
